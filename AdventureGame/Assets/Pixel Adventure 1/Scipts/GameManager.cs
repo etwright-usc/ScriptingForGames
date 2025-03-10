@@ -10,21 +10,48 @@ public class GameManager : MonoBehaviour
     public PlayerBehavior player;
 
     private int score = 0;
+    private int health;
     private int playerMaxHealth;
 
     private void Start()
     {
         playerMaxHealth = player.maxHealth;
+        health = playerMaxHealth;
+        UpdateScoreText(0);
     }
 
-    public void UpdateScore(int scoreToAdd)
+    public void UpdateScoreText(int scoreToAdd)
     {
         score += scoreToAdd;
         scoreText.text = "Score: " + score;
+        if (scoreToAdd != 0)
+        {
+            if (scoreToAdd > 0)
+            {
+                scoreText.GetComponent<Animator>().SetTrigger("GoodUpdate");
+            }
+            else if (scoreToAdd < 0)
+            {
+                scoreText.GetComponent<Animator>().SetTrigger("BadUpdate");
+            }
+        }
     }
 
     public void UpdateHealthText()
     {
+        int previousHealth = health;
+        health = player.GetHealth();
         healthText.text = "HP: " + player.GetHealth() + "/" + playerMaxHealth;
+        if (health != previousHealth)
+        {
+            if (health > previousHealth)
+            {
+                healthText.GetComponent<Animator>().SetTrigger("GoodUpdate");
+            }
+            else if (health < previousHealth)
+            {
+                healthText.GetComponent<Animator>().SetTrigger("BadUpdate");
+            }
+        }
     }
 }

@@ -57,7 +57,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Collectible")
         {
-            gm.UpdateScore(collision.GetComponent<Collectible>().points);
+            gm.UpdateScoreText(collision.GetComponent<Collectible>().points);
             StartCoroutine(collision.GetComponent<Collectible>().Collected());
         }
 
